@@ -1,0 +1,76 @@
+plates = []
+
+def read_required_positive_integer(prompt):
+        value = input(prompt).strip() # removes any extra whitespaces
+        if value: # check if input is empty
+            if value.isdigit(): # checks if input is an integer
+                number = int(value) # converts sting to int
+                if number > 0: # checks that input is a positive number
+                    return number
+                else:
+                    print("Error: Enter a positive number.")
+                    return read_required_positive_integer(prompt)
+            else:
+                print("Error: Enter a valid integer.")
+                return read_required_positive_integer(prompt)
+        else:
+            print("Error: Value is required.")
+            return read_required_positive_integer(prompt)
+        
+# add a plate function
+def add_a_plate():
+    plate_size = read_required_positive_integer("Enter plate size? ")
+
+    if plates and plate_size > plates[-1]:# Check if the new plate size is larger than the last added plate size
+        print("Error: Larger plates cannot be added after smaller plates.")
+    else:
+        plates.append(plate_size) #add plate to list
+        print(f"Success! Plate size {plate_size} added.")
+
+#print plate function
+def print_plates():
+    if not plates: #checks if plates list is empty
+        print("There are no stacked plates")
+    else:
+        print("Plates:")
+        for plate in reversed(plates): # place plates in reverse order
+            print(plate)  
+
+#remove plate function
+def remove_plates():
+  if not plates: #checks if plates list is empty
+    print("There are no stacked plates")
+    return
+  
+  size = read_required_positive_integer("How many plates to remove? ")
+  if size > 2: # can only remove maximun of 2 plates at a time
+      print(f"Cannot remove more than 2 plates. You chose {size}")
+      return read_required_positive_integer("How many plates to remove? ")
+  
+  del plates[-size:] #delete the number of plates inputted
+  print(f"Removed {size} plate(s). {len(plates)} plates remaining.")
+
+
+def run():
+    print("Menu")
+    print("================")
+    option = ""
+    while option != "0":
+        print("0. [Exit]")
+        print("1. Add a plate")
+        print("2. Print plates")
+        print("3. Remove plates")
+        option = input("Select [0-3]: ")
+        if option == "0":
+          print("Exit.Goodbye.")
+        elif option == "1":
+          add_a_plate()
+        elif option == "2":
+          print_plates()
+        elif option == "3":
+          remove_plates()
+        else:
+            print("I don't understand that command.")
+
+
+run()
